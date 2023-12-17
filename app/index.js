@@ -1,12 +1,10 @@
 import  express  from "express";
-import cookieParser from "cookie-parser";
 
 //Fix para __dirname
 import path from 'path';
 import {fileURLToPath} from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 import { methods as authentication } from "./controller/authentication.controller.js";
-import { methods as authoritation } from "./middleware/authoritation.js";
 
 //Server
 const app = express();
@@ -17,11 +15,10 @@ console.log("Servidor corriendo en puerto",app.get("port"));
 //Configuracion 
 app.use(express.static(__dirname + "/public"));
 app.use(express.json());
-app.use(cookieParser())
 
 //Rutas
-app.get("/login",authoritation.soloPublico,(req,res)=> res.sendFile(__dirname + "/pages/login.html"));
-app.get("/register",authoritation.soloPublico,(req,res)=> res.sendFile(__dirname + "/pages/register.html"));
-app.get("/admin",authoritation.soloAdmin,(req,res)=> res.sendFile(__dirname + "/pages/admin/admin.html"));
+app.get("/login",(req,res)=> res.sendFile(__dirname + "/pages/login.html"));
+app.get("/register",(req,res)=> res.sendFile(__dirname + "/pages/register.html"));
+app.get("/admin",(req,res)=> res.sendFile(__dirname + "/pages/admin/admin.html"));
 app.post("/api/login",authentication.login);
 app.post("/api/register",authentication.register);
